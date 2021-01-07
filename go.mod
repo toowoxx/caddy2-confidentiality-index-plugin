@@ -9,7 +9,6 @@ require (
 	github.com/caddyserver/caddy/v2 v2.3.0
 	github.com/google/uuid v1.1.4 // indirect
 	github.com/klauspost/cpuid/v2 v2.0.3 // indirect
-	github.com/markbates/pkger v0.17.1
 	github.com/mholt/acmez v0.1.2 // indirect
 	github.com/pkg/errors v0.9.1
 	github.com/smallstep/certificates v0.15.6 // indirect
