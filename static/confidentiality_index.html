@@ -1,0 +1,190 @@
+<style type="text/css">
+    /**
+        ** Why not just configuring all colors ;)
+        */
+    :root {
+        --twxCnfColorSignBackground: #404040;
+        --twxCnfColorInternal: #E55B5B;
+        --twxCnfColorRestricted: #E5BA79;
+        --twxCnfColorConfidential: #6FE56B;
+        --twxCnfColorTextBackgroundInactive: #a7a7a7;
+        --twxCnfColorTextActive: #FFFFFF;
+        --twxCnfColorTextInactive: #858585;
+    }
+
+    /**
+        ** I´m the container, heya
+        */
+    #twx_cnf_container {
+        position: fixed;
+        display: block;
+        left: 20px;
+        bottom: 20px;
+        min-width: 28px;
+        height: 80px;
+        cursor: help;
+        z-index: 99999;
+    }
+
+    /**
+        ** Stuff for the sign itself
+        */
+    #twx_cnf_sign {
+        position:relative;
+        float: left;
+        width: 28px;
+        height: 80px;
+        border-radius: 4px;
+        background-color: var(--twxCnfColorSignBackground);
+        background-color: var(--twxCnfColorSignBackground);
+    }
+
+    .twx_cnf_c {
+        position:absolute;
+        left: 4px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: var(--twxCnfColorTextBackgroundInactive);
+    }
+
+    #twx_cnf_int {
+        top: 5px;
+    }
+
+    #twx_cnf_int.active {
+        background-color: var(--twxCnfColorInternal);
+    }
+
+    #twx_cnf_rest {
+        top: 30px;
+    }
+
+    #twx_cnf_rest.active {
+        background-color: var(--twxCnfColorRestricted);
+    }
+
+    #twx_cnf_conf {
+        top: 55px;
+    }
+
+    #twx_cnf_conf.active {
+        background-color: var(--twxCnfColorConfidential);
+    }
+
+    /**
+        ** Stuff for the texts
+        */
+    #twx_cnf_txt {
+        position: relative;
+        float: right;
+        height: 80px;
+    }
+
+    .twx_cnf_t {
+        overflow: hidden;
+        position:absolute;
+        left: 0px;
+        width: 0px;
+        height: 20px;
+        border-radius: 0 4px 4px 0;
+        background-color: var(--twxCnfColorTextBackgroundInactive);
+        -webkit-transition: width 0.2s ease-in-out;
+        -moz-transition: width 0.2s ease-in-out;
+        -o-transition: width 0.2s ease-in-out;
+        transition: width 0.2s ease-in-out;
+    }
+
+    #twx_cnf_container:hover .twx_cnf_t {
+        width: 100px;
+    }
+
+    .twx_cnf_t p {
+        margin: 1px 0;
+        padding: 0;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-size:13px;
+        color: var(--twxCnfColorTextInactive);
+        text-align: center;
+    }
+
+    .twx_cnf_t.active p {
+        color: var(--twxCnfColorTextActive);
+    }
+
+    #twx_cnf_t_int {
+        top: 5px;
+    }
+
+    #twx_cnf_t_int.active {
+        background-color: var(--twxCnfColorInternal);
+    }
+
+    #twx_cnf_t_rest {
+        top: 30px;
+    }
+
+    #twx_cnf_t_rest.active {
+        background-color: var(--twxCnfColorRestricted);
+    }
+
+    #twx_cnf_t_conf {
+        top: 55px;
+    }
+
+    #twx_cnf_t_conf.active {
+        background-color: var(--twxCnfColorConfidential);
+    }
+</style>
+<script type="text/javascript">
+    // "int", "rest" or "conf" are possible values
+    let twxCnfActive = "{{confidentiality}}";
+    let twcCnfPossValues = {
+        "int": "Internal",
+        "rest": "Restricted",
+        "conf": "Confidential"
+    };
+
+    // Create all neccessary elements
+    let twxCnfContainer = document.createElement("a");
+        twxCnfContainer.id = "twx_cnf_container";
+        twxCnfContainer.href = "https://wiki.toowoxx.de/display/ISMS/Informationsklassifizierung";
+        twxCnfContainer.target = "_blank";
+        twxCnfContainer.onclick = function() {
+    };
+    document.body.appendChild(twxCnfContainer);
+
+    // Sign
+    let twxCnfSign = document.createElement("div");
+    twxCnfSign.id = "twx_cnf_sign";
+    twxCnfContainer.appendChild(twxCnfSign);
+
+    for(twxCnfPossValueKey in twcCnfPossValues) {
+        let twxCnfColorSign = document.createElement("div");
+        twxCnfColorSign.id = "twx_cnf_" + twxCnfPossValueKey;
+        twxCnfColorSign.classList.add("twx_cnf_c");
+        if (twxCnfActive == twxCnfPossValueKey) {
+            twxCnfColorSign.classList.add("active");
+        }
+        twxCnfSign.appendChild(twxCnfColorSign);
+    };
+
+    // Texts
+    let twxCnfTxt = document.createElement("div");
+    twxCnfTxt.id = "twx_cnf_txt";
+    twxCnfContainer.appendChild(twxCnfTxt);
+
+    for(twxCnfPossValueKey in twcCnfPossValues) {
+        let twxCnfT = document.createElement("div");
+        twxCnfT.id = "twx_cnf_t_" + twxCnfPossValueKey;
+        twxCnfT.classList.add("twx_cnf_t");
+        if (twxCnfActive == twxCnfPossValueKey) {
+            twxCnfT.classList.add("active");
+        }
+        twxCnfTxt.appendChild(twxCnfT);
+
+        let twxCnfTP = document.createElement("p");
+        twxCnfTP.innerHTML = twcCnfPossValues[twxCnfPossValueKey];
+        twxCnfT.appendChild(twxCnfTP);
+    };
+</script>

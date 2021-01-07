@@ -1,0 +1,10 @@
+{
+    debug
+    order confidentiality first
+}
+
+http://localhost:2015 {
+    confidentiality internal
+    root * test/
+    file_server
+}
