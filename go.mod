@@ -3,7 +3,7 @@ module git.toowoxx.de/foss/go/caddy2-confidentiality-index
 go 1.15
 
 require (
-	git.toowoxx.de/foss/go/caddy2-html-injection-plugin v0.4.11
+	git.toowoxx.de/foss/go/caddy2-html-injection-plugin v0.4.12
 	github.com/Masterminds/sprig/v3 v3.2.0 // indirect
 	github.com/antlr/antlr4 v0.0.0-20210105212045-464bcbc32de2 // indirect
 	github.com/caddyserver/caddy/v2 v2.3.0
