@@ -67,6 +67,7 @@ func (m Middleware) HandleLine(line string) (string, error) {
 			return line, err
 		}
 		textToInject = strings.Replace(textToInject, "{{confidentiality}}", m.Confidentiality.ToScriptKey(), 1)
+		textToInject = m.injectedWriter.HandleCSPForText(textToInject)
 		return strings.Replace(line, m.injectedWriter.M.Before, textToInject+m.injectedWriter.M.Before, 1), nil
 	}
 	return line, nil
@@ -75,6 +76,12 @@ func (m Middleware) HandleLine(line string) (string, error) {
 func (m Middleware) ServeHTTP(w http.ResponseWriter, r *http.Request, next caddyhttp.Handler) error {
 	r.Header.Set("Accept-Encoding", "identity")
 	injectedWriter := injection.CreateInjectedWriter(w, r, m.injectionMiddleware)
+	if err := injectedWriter.HandleCSP(); err != nil {
+		m.logger.Warn(err.Error())
+		// Skip to preserve availability
+		return next.ServeHTTP(w, r)
+	}
+
 	m.injectedWriter = injectedWriter
 	injectedWriter.LineHandler = m
 	err := next.ServeHTTP(injectedWriter, r)
