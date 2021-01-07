@@ -61,7 +61,6 @@ func (m *Middleware) Validate() error {
 }
 
 func (m Middleware) HandleLine(line string) (string, error) {
-	m.logger.Sugar().Info(line)
 	if strings.Contains(line, m.injectedWriter.M.Before) {
 		f, err := pkger.Open("/static/confidentiality_index.html")
 		if err != nil {
