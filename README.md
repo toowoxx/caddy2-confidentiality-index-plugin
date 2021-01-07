@@ -24,6 +24,11 @@ http://localhost:2015 {
 - restricted
 - confidential
 
+## Build notes
+
+When updating static files, run `./package.sh` to regenerate pkged files.
+This is necessary because the caddy builder does not (at least as of now) run go generate.
+
 # License
 
 ```
