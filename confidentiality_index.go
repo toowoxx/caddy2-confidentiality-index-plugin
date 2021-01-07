@@ -76,11 +76,6 @@ func (m Middleware) HandleLine(line string) (string, error) {
 func (m Middleware) ServeHTTP(w http.ResponseWriter, r *http.Request, next caddyhttp.Handler) error {
 	r.Header.Set("Accept-Encoding", "identity")
 	injectedWriter := injection.CreateInjectedWriter(w, r, m.injectionMiddleware)
-	if err := injectedWriter.HandleCSP(); err != nil {
-		m.logger.Warn(err.Error())
-		// Skip to preserve availability
-		return next.ServeHTTP(w, r)
-	}
 
 	m.injectedWriter = injectedWriter
 	injectedWriter.LineHandler = m
