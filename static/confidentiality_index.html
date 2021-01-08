@@ -1,7 +1,7 @@
 <style type="text/css" nonce="{{csp-nonce}}">
     /**
-        ** Why not just configuring all colors ;)
-        */
+     * Why not just configure all colors ;)
+     */
     :root {
         --twxCnfColorSignBackground: #404040;
         --twxCnfColorInternal: #E55B5B;
@@ -13,8 +13,8 @@
     }
 
     /**
-        ** I´m the container, heya
-        */
+     * I'm the container, heya
+     */
     #twx_cnf_container {
         position: fixed;
         display: block;
@@ -27,15 +27,14 @@
     }
 
     /**
-        ** Stuff for the sign itself
-        */
+     * Stuff for the sign itself
+     */
     #twx_cnf_sign {
         position:relative;
         float: left;
         width: 28px;
         height: 80px;
         border-radius: 4px;
-        background-color: var(--twxCnfColorSignBackground);
         background-color: var(--twxCnfColorSignBackground);
     }
 
@@ -73,8 +72,8 @@
     }
 
     /**
-        ** Stuff for the texts
-        */
+     * Stuff for the text
+     */
     #twx_cnf_txt {
         position: relative;
         float: right;
@@ -145,7 +144,7 @@
         "conf": "Confidential"
     };
 
-    // Create all neccessary elements
+    // Create all necessary elements
     let twxCnfContainer = document.createElement("a");
         twxCnfContainer.id = "twx_cnf_container";
         twxCnfContainer.href = "https://wiki.toowoxx.de/display/ISMS/Informationsklassifizierung";
@@ -159,11 +158,11 @@
     twxCnfSign.id = "twx_cnf_sign";
     twxCnfContainer.appendChild(twxCnfSign);
 
-    for(twxCnfPossValueKey in twcCnfPossValues) {
+    for(let twxCnfPossValueKey in twcCnfPossValues) {
         let twxCnfColorSign = document.createElement("div");
         twxCnfColorSign.id = "twx_cnf_" + twxCnfPossValueKey;
         twxCnfColorSign.classList.add("twx_cnf_c");
-        if (twxCnfActive == twxCnfPossValueKey) {
+        if (twxCnfActive === twxCnfPossValueKey) {
             twxCnfColorSign.classList.add("active");
         }
         twxCnfSign.appendChild(twxCnfColorSign);
@@ -174,11 +173,11 @@
     twxCnfTxt.id = "twx_cnf_txt";
     twxCnfContainer.appendChild(twxCnfTxt);
 
-    for(twxCnfPossValueKey in twcCnfPossValues) {
+    for(let twxCnfPossValueKey in twcCnfPossValues) {
         let twxCnfT = document.createElement("div");
         twxCnfT.id = "twx_cnf_t_" + twxCnfPossValueKey;
         twxCnfT.classList.add("twx_cnf_t");
-        if (twxCnfActive == twxCnfPossValueKey) {
+        if (twxCnfActive === twxCnfPossValueKey) {
             twxCnfT.classList.add("active");
         }
         twxCnfTxt.appendChild(twxCnfT);
