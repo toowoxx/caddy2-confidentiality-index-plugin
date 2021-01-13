@@ -75,7 +75,7 @@ func (m Middleware) HandleLine(line string) (string, error) {
 
 func (m Middleware) ServeHTTP(w http.ResponseWriter, r *http.Request, next caddyhttp.Handler) error {
 	if m.injectionMiddleware.ShouldBypassForRequest(w, r) {
-		return next.ServeHTTP(w, r);
+		return next.ServeHTTP(w, r)
 	}
 	r.Header.Set("Accept-Encoding", "identity")
 	injectedWriter := injection.CreateInjectedWriter(w, r, m.injectionMiddleware)
