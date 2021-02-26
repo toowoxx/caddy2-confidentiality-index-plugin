@@ -8,7 +8,7 @@ Add `order confidentiality first` to root level and add `confidentiality <classi
 
 ```
 {
-    order confidentiality first
+    order confidentiality after encode
 }
 
 http://localhost:2015 {
@@ -28,6 +28,18 @@ http://localhost:2015 {
 
 When updating static files, run `./package.sh` to regenerate pkged files.
 This is necessary because the caddy builder does not (at least as of now) run go generate.
+
+## Testing
+
+You can test locally using following command:
+```
+xcaddy run -config test/Caddyfile -adapter caddyfile
+```
+
+You may need to install/update xcaddy first:
+```
+go install github.com/caddyserver/xcaddy/cmd/xcaddy@latest
+```
 
 # License
 
