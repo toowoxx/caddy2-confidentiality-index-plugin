@@ -9,4 +9,9 @@ http://localhost:2015 {
     confidentiality internal
     root * test/
     file_server
+    request_header -If-Modified-Since
+    request_header -If-None-Match
+    header {
+        -Etag
+    }
 }

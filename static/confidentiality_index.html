@@ -17,7 +17,7 @@
      */
     #twx_cnf_container {
         position: fixed;
-        display: block;
+        display: flex;
         left: 20px;
         bottom: 20px;
         min-width: 28px;
@@ -32,16 +32,19 @@
      * Stuff for the sign itself
      */
     #twx_cnf_sign {
-        position:relative;
-        float: left;
         width: 28px;
         height: 80px;
         border-radius: 4px;
         background-color: var(--twxCnfColorSignBackground);
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        padding: 6px 0;
+        justify-content: space-between;
+        align-items: center;
     }
 
     .twx_cnf_c {
-        position:absolute;
         left: 4px;
         width: 20px;
         height: 20px;
@@ -84,9 +87,9 @@
 
     .twx_cnf_t {
         overflow: hidden;
-        position:absolute;
-        left: 0px;
-        width: 0px;
+        position: absolute;
+        left: 0;
+        width: 0;
         height: 20px;
         border-radius: 0 4px 4px 0;
         background-color: var(--twxCnfColorTextBackgroundInactive);
@@ -150,14 +153,13 @@
         #twx_cnf_sign {
             background-color: transparent;
             height: 24px;
-            float: none;
-            margin-left: auto;
-            margin-right: auto;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
         }
 
         #twx_cnf_txt {
             display: none;
-            float: none;
         }
 
         #twx_cnf_container:hover .twx_cnf_t {
@@ -171,12 +173,13 @@
             left: 16px;
             bottom: 16px;
             height: auto;
+            justify-content: center;
+            align-items: center;
         }
 
         #twx_cnf_mobile_txt {
             display: block;
             margin-top: 4px;
-            height: 16px;
             width: fit-content;
             font-size: 12px;
             background-color: rgba(10, 10, 10, 0.62);
