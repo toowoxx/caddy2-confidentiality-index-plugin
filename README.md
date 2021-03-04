@@ -2,7 +2,8 @@
 
 ## Config
 
-Add `order confidentiality first` to root level and add `confidentiality <classification>` to the servers you want to have the index on.
+Add `order confidentiality after encode` to root level and
+add `confidentiality <classification>` to the servers you want to have the index on.
 
 **Example:**
 
@@ -23,11 +24,6 @@ http://localhost:2015 {
 - internal
 - restricted
 - confidential
-
-## Build notes
-
-When updating static files, run `./package.sh` to regenerate pkged files.
-This is necessary because the caddy builder does not (at least as of now) run go generate.
 
 ## Testing
 
