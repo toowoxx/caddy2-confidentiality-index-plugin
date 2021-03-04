@@ -1,6 +1,6 @@
 module git.toowoxx.de/foss/go/caddy2-confidentiality-index
 
-go 1.15
+go 1.16
 
 require (
 	git.toowoxx.de/foss/go/caddy2-html-injection-plugin v0.5.1

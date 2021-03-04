@@ -14,7 +14,7 @@ import (
 	"github.com/pkg/errors"
 	"go.uber.org/zap"
 
-	"git.toowoxx.de/foss/go/caddy2-confidentiality-index/pkged"
+	"git.toowoxx.de/foss/go/caddy2-confidentiality-index/embedded"
 )
 
 func init() {
@@ -62,10 +62,7 @@ func (m *Middleware) Validate() error {
 
 func (m Middleware) HandleLine(line string) (string, error) {
 	if strings.Contains(line, m.injectedWriter.M.Before) {
-		textToInject, err := pkged.GetText("static/confidentiality_index.html")
-		if err != nil {
-			return line, err
-		}
+		textToInject := embedded.ConfidentialityIndexHtml
 		textToInject = strings.Replace(textToInject, "{{confidentiality}}", m.Confidentiality.ToScriptKey(), 1)
 		textToInject = m.injectedWriter.HandleCSPForText(textToInject)
 		return strings.Replace(line, m.injectedWriter.M.Before, textToInject+m.injectedWriter.M.Before, 1), nil
