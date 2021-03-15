@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strings"
 
-	"git.toowoxx.de/foss/go/caddy2-html-injection-plugin"
+	"github.com/toowoxx/caddy2-html-injection-plugin"
 	"github.com/caddyserver/caddy/v2"
 	"github.com/caddyserver/caddy/v2/caddyconfig/caddyfile"
 	"github.com/caddyserver/caddy/v2/caddyconfig/httpcaddyfile"
@@ -14,7 +14,7 @@ import (
 	"github.com/pkg/errors"
 	"go.uber.org/zap"
 
-	"git.toowoxx.de/foss/go/caddy2-confidentiality-index/embedded"
+	"github.com/toowoxx/caddy2-confidentiality-index-plugin/embedded"
 )
 
 func init() {

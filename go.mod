@@ -1,9 +1,8 @@
-module git.toowoxx.de/foss/go/caddy2-confidentiality-index
+module github.com/toowoxx/caddy2-confidentiality-index-plugin
 
 go 1.16
 
 require (
-	git.toowoxx.de/foss/go/caddy2-html-injection-plugin v0.5.2
 	github.com/Masterminds/sprig/v3 v3.2.0 // indirect
 	github.com/caddyserver/caddy/v2 v2.3.0
 	github.com/google/uuid v1.1.4 // indirect
@@ -11,6 +10,7 @@ require (
 	github.com/mholt/acmez v0.1.2 // indirect
 	github.com/pkg/errors v0.9.1
 	github.com/smallstep/certificates v0.15.6 // indirect
+	github.com/toowoxx/caddy2-html-injection-plugin v0.5.4
 	go.step.sm/crypto v0.8.0 // indirect
 	go.uber.org/zap v1.16.0
 	golang.org/x/crypto v0.0.0-20201221181555-eec23a3978ad // indirect
