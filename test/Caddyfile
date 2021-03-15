@@ -1,7 +1,7 @@
 {
     debug
     admin off
-    order confidentiality first
+    order confidentiality after encode
 }
 
 http://localhost:2015 {
