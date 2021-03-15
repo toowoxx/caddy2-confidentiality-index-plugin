@@ -1,7 +1,5 @@
 package confindex
 
-//go:generate -command ./package.sh
-
 import (
 	"net/http"
 	"strings"
