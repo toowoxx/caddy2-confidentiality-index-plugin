@@ -1,6 +1,6 @@
 # Confidentiality Plugin for Caddy
 
-Adds a confidentialty index to all pages.
+Adds a confidentiality index to all pages.
 
 ![image](https://user-images.githubusercontent.com/80681087/111144388-4df65300-8587-11eb-8a26-774060ad87a2.png)
 ![image](https://user-images.githubusercontent.com/80681087/111144458-64041380-8587-11eb-95f2-9209f2e2ac05.png)
