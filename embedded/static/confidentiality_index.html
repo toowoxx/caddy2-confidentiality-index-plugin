@@ -209,11 +209,17 @@
 
     // Create all necessary elements
     let twxCnfContainer = document.createElement("a");
-        twxCnfContainer.id = "twx_cnf_container";
-        twxCnfContainer.className = "twx_cnf_container_customizable"
-        twxCnfContainer.href = "https://wiki.toowoxx.de/display/ISMS/Informationsklassifizierung";
+    twxCnfContainer.id = "twx_cnf_container";
+    twxCnfContainer.className = "twx_cnf_container_customizable"
+    let docLink = "{{documentation_link}}"
+    if (docLink.length !== 0) {
+        twxCnfContainer.href = docLink;
         twxCnfContainer.target = "_blank";
-        twxCnfContainer.onclick = function() {
+    }
+    twxCnfContainer.onclick = function(e) {
+        if (docLink.length === 0) {
+            e.preventDefault()
+        }
     };
     document.body.appendChild(twxCnfContainer);
 

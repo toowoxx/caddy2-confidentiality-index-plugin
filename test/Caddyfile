@@ -2,6 +2,7 @@
     debug
     admin off
     order confidentiality after encode
+    confidentiality_doc_link "https://copy.sh/v86"
 }
 
 http://localhost:2015 {
