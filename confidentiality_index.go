@@ -24,6 +24,8 @@ type TemplateOptions struct {
 	ConfidentialityDocLink string
 }
 
+var templateOptions TemplateOptions
+
 func init() {
 	caddy.RegisterModule(Middleware{})
 	httpcaddyfile.RegisterHandlerDirective("confidentiality", parseCaddyfile)
@@ -60,6 +62,7 @@ func (m *Middleware) Provision(ctx caddy.Context) error {
 		zap.String("ConfidentialityStr", m.ConfidentialityStr),
 		zap.String("documentationLink", documentationLink),
 	)
+
 	m.injectionMiddleware = &injection.Middleware{
 		ContentType: "text/html",
 		// Not necessary as we will be using a custom LineHandler
@@ -76,16 +79,19 @@ func (m *Middleware) Validate() error {
 		return errors.Wrap(err, "confidentiality index validation error")
 	}
 	m.Confidentiality = confidentiality
+
+	templateOptions = TemplateOptions{
+		Confidentiality:        m.Confidentiality.ToScriptKey(),
+		ConfidentialityDocLink: documentationLink,
+	}
+
 	return m.injectionMiddleware.Validate()
 }
 
 func (m Middleware) HandleLine(line string) (string, error) {
 	if strings.Contains(line, m.injectedWriter.M.Before) {
 		var strBuf strings.Builder
-		err := tpl.Execute(&strBuf, TemplateOptions{
-			Confidentiality:        m.Confidentiality.ToScriptKey(),
-			ConfidentialityDocLink: documentationLink,
-		})
+		err := tpl.Execute(&strBuf, &templateOptions)
 		if err != nil {
 			return "", errors.Wrap(err, "could not execute template")
 		}
