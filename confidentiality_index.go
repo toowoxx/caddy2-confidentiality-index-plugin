@@ -24,7 +24,7 @@ type TemplateOptions struct {
 	ConfidentialityDocLink string
 }
 
-var templateOptions TemplateOptions
+var textToInject string
 
 func init() {
 	caddy.RegisterModule(Middleware{})
@@ -80,23 +80,22 @@ func (m *Middleware) Validate() error {
 	}
 	m.Confidentiality = confidentiality
 
-	templateOptions = TemplateOptions{
+	var strBuf strings.Builder
+	err = tpl.Execute(&strBuf, &TemplateOptions{
 		Confidentiality:        m.Confidentiality.ToScriptKey(),
 		ConfidentialityDocLink: documentationLink,
+	})
+	if err != nil {
+		return errors.Wrap(err, "could not execute template")
 	}
+	textToInject = strBuf.String()
 
 	return m.injectionMiddleware.Validate()
 }
 
 func (m Middleware) HandleLine(line string) (string, error) {
 	if strings.Contains(line, m.injectedWriter.M.Before) {
-		var strBuf strings.Builder
-		err := tpl.Execute(&strBuf, &templateOptions)
-		if err != nil {
-			return "", errors.Wrap(err, "could not execute template")
-		}
-		textToInject := strBuf.String()
-		textToInject = m.injectedWriter.HandleCSPForText(textToInject)
+		textToInject := m.injectedWriter.HandleCSPForText(textToInject)
 
 		return strings.Replace(line, m.injectedWriter.M.Before, textToInject+m.injectedWriter.M.Before, 1), nil
 	}
