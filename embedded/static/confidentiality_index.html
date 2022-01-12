@@ -1,21 +1,16 @@
-<style type="text/css" nonce="{{csp-nonce}}">
-    /**
-     * Why not just configure all colors ;)
-     */
+{{- /*gotype: github.com/toowoxx/caddy2-confidentiality-index-plugin/TemplateOptions*/ -}}
+<style nonce="{{`{{csp-nonce}}`}}">
     :root {
-        --twxCnfColorSignBackground: #404040;
-        --twxCnfColorInternal: #E55B5B;
-        --twxCnfColorRestricted: #E5BA79;
-        --twxCnfColorConfidential: #6FE56B;
-        --twxCnfColorTextBackgroundInactive: #a7a7a7;
-        --twxCnfColorTextActive: #FFFFFF;
-        --twxCnfColorTextInactive: #858585;
+        --ccipColorBackground: rgba(0, 0, 0, 0.75);
+        --ccipColorInternal: #E55B5B;
+        --ccipColorRestricted: #E5BA79;
+        --ccipColorConfidential: #6FE56B;
+        --ccipColorTextBackgroundInactive: rgba(160, 160, 160, 0.85);
+        --ccipColorTextActive: #FFFFFF;
+        --ccipColorTextInactive: #484848;
     }
 
-    /**
-     * I'm the container, heya
-     */
-    #twx_cnf_container {
+    #ccipContainer {
         position: fixed;
         display: flex;
         left: 20px;
@@ -28,14 +23,11 @@
         text-decoration: none;
     }
 
-    /**
-     * Stuff for the sign itself
-     */
-    #twx_cnf_sign {
+    #ccipTrafficLight {
         width: 28px;
         height: 80px;
         border-radius: 4px;
-        background-color: var(--twxCnfColorSignBackground);
+        background-color: var(--ccipColorBackground);
         display: flex;
         flex-direction: column;
         box-sizing: border-box;
@@ -44,55 +36,52 @@
         align-items: center;
     }
 
-    .twx_cnf_c {
+    .ccip-lamp {
         left: 4px;
         width: 20px;
         height: 20px;
         border-radius: 50%;
-        background-color: var(--twxCnfColorTextBackgroundInactive);
+        background-color: var(--ccipColorTextBackgroundInactive);
     }
 
-    #twx_cnf_int {
+    #ccipLampInt {
         top: 5px;
     }
 
-    #twx_cnf_int.active {
-        background-color: var(--twxCnfColorInternal);
+    #ccipLampInt[data-conf="int"], #ccipLampMobile[data-conf="int"] {
+        background-color: var(--ccipColorInternal);
     }
 
-    #twx_cnf_rest {
+    #ccipLampRest {
         top: 30px;
     }
 
-    #twx_cnf_rest.active {
-        background-color: var(--twxCnfColorRestricted);
+    #ccipLampRest[data-conf="rest"], #ccipLampMobile[data-conf="rest"] {
+        background-color: var(--ccipColorRestricted);
     }
 
-    #twx_cnf_conf {
+    #ccipLampConf {
         top: 55px;
     }
 
-    #twx_cnf_conf.active {
-        background-color: var(--twxCnfColorConfidential);
+    #ccipLampConf[data-conf="conf"], #ccipLampMobile[data-conf="conf"] {
+        background-color: var(--ccipColorConfidential);
     }
 
-    /**
-     * Stuff for the text
-     */
-    #twx_cnf_txt {
+    #ccipText {
         position: relative;
         float: right;
         height: 80px;
     }
 
-    .twx_cnf_t {
+    .ccip-text {
         overflow: hidden;
         position: absolute;
         left: 0;
         width: 0;
         height: 20px;
         border-radius: 0 4px 4px 0;
-        background-color: var(--twxCnfColorTextBackgroundInactive);
+        background-color: var(--ccipColorTextBackgroundInactive);
         -webkit-transition: width 0.2s ease-in-out;
         -moz-transition: width 0.2s ease-in-out;
         -o-transition: width 0.2s ease-in-out;
@@ -102,59 +91,64 @@
         align-items: center;
     }
 
-    #twx_cnf_container:hover .twx_cnf_t {
+    #ccipContainer:hover .ccip-text {
         width: 100px;
     }
 
-    .twx_cnf_t p {
+    .ccip-text {
+        color: var(--ccipColorTextInactive);
+    }
+
+    .ccip-text p {
         margin: 1px 0;
         padding: 0;
-        font-size:13px;
-        color: var(--twxCnfColorTextInactive);
+        font-size: 13px;
         text-align: center;
         line-height: 1;
     }
 
-    .twx_cnf_t.active p {
-        color: var(--twxCnfColorTextActive);
-    }
-
-    #twx_cnf_t_int {
+    #ccipTextInt {
         top: 5px;
     }
 
-    #twx_cnf_t_int.active {
-        background-color: var(--twxCnfColorInternal);
+    #ccipTextInt[data-conf="int"] {
+        background-color: var(--ccipColorInternal);
+        color: var(--ccipColorTextActive);
     }
 
-    #twx_cnf_t_rest {
+    #ccipTextRest {
         top: 30px;
     }
 
-    #twx_cnf_t_rest.active {
-        background-color: var(--twxCnfColorRestricted);
+    #ccipTextRest[data-conf="rest"] {
+        background-color: var(--ccipColorRestricted);
+        color: var(--ccipColorTextActive);
     }
 
-    #twx_cnf_t_conf {
+    #ccipTextConf {
         top: 55px;
     }
 
-    #twx_cnf_t_conf.active {
-        background-color: var(--twxCnfColorConfidential);
+    #ccipTextConf[data-conf="conf"] {
+        background-color: var(--ccipColorConfidential);
+        color: var(--ccipColorTextActive);
     }
 
-    #twx_cnf_mobile_txt {
+    #ccipMobileText {
+        display: none;
+    }
+
+    #ccipTrafficLightMobile {
         display: none;
     }
 
     @media screen and (max-width: 960px) {
-        .twx_cnf_c:not(.active) {
+        #ccipTrafficLight {
             display: none;
-            top: unset;
-            bottom: 0;
         }
 
-        #twx_cnf_sign {
+        #ccipTrafficLightMobile {
+            display: flex;
             background-color: transparent;
             height: 24px;
             justify-content: center;
@@ -162,16 +156,16 @@
             padding: 0;
         }
 
-        #twx_cnf_txt {
+        #ccipText {
             display: none;
         }
 
-        #twx_cnf_container:hover .twx_cnf_t {
+        #ccipContainer:hover .ccip-text {
             display: none;
             width: 0;
         }
 
-        #twx_cnf_container {
+        #ccipContainer {
             display: flex;
             flex-direction: column;
             left: 16px;
@@ -181,7 +175,7 @@
             align-items: center;
         }
 
-        #twx_cnf_mobile_txt {
+        #ccipMobileText {
             display: block;
             margin-top: 4px;
             width: fit-content;
@@ -193,73 +187,42 @@
             color: white;
         }
 
-        a:hover #twx_cnf_mobile_txt, a:active #twx_cnf_mobile_txt, a:visited #twx_cnf_mobile_txt {
+        a:hover #ccipMobileText, a:active #ccipMobileText, a:visited #ccipMobileText {
             text-decoration: none;
         }
     }
 </style>
-<script type="text/javascript" nonce="{{csp-nonce}}">
-    // "int", "rest" or "conf" are possible values
-    let twxCnfActive = "{{confidentiality}}";
-    let twcCnfPossValues = {
-        "int": "Internal",
-        "rest": "Restricted",
-        "conf": "Confidential"
-    };
-
-    // Create all necessary elements
-    let twxCnfContainer = document.createElement("a");
-    twxCnfContainer.id = "twx_cnf_container";
-    twxCnfContainer.className = "twx_cnf_container_customizable"
-    let docLink = "{{documentation_link}}"
-    if (docLink.length !== 0) {
-        twxCnfContainer.href = docLink;
-        twxCnfContainer.target = "_blank";
-    }
-    twxCnfContainer.onclick = function(e) {
-        if (docLink.length === 0) {
-            e.preventDefault()
-        }
-    };
-    document.body.appendChild(twxCnfContainer);
-
-    // Sign
-    let twxCnfSign = document.createElement("div");
-    twxCnfSign.id = "twx_cnf_sign";
-    twxCnfContainer.appendChild(twxCnfSign);
-
-    for(let twxCnfPossValueKey in twcCnfPossValues) {
-        let twxCnfColorSign = document.createElement("div");
-        twxCnfColorSign.id = "twx_cnf_" + twxCnfPossValueKey;
-        twxCnfColorSign.classList.add("twx_cnf_c");
-        if (twxCnfActive === twxCnfPossValueKey) {
-            twxCnfColorSign.classList.add("active");
-        }
-        twxCnfSign.appendChild(twxCnfColorSign);
-    };
-
-    // Texts
-    let twxCnfTxt = document.createElement("div");
-    twxCnfTxt.id = "twx_cnf_txt";
-    twxCnfContainer.appendChild(twxCnfTxt);
-
-    for(let twxCnfPossValueKey in twcCnfPossValues) {
-        let twxCnfT = document.createElement("div");
-        twxCnfT.id = "twx_cnf_t_" + twxCnfPossValueKey;
-        twxCnfT.classList.add("twx_cnf_t");
-        if (twxCnfActive === twxCnfPossValueKey) {
-            twxCnfT.classList.add("active");
-        }
-        twxCnfTxt.appendChild(twxCnfT);
-
-        let twxCnfTP = document.createElement("p");
-        twxCnfTP.innerHTML = twcCnfPossValues[twxCnfPossValueKey];
-        twxCnfT.appendChild(twxCnfTP);
-    };
-
-    // Mobile view text
-    let twxCnfMobileTxt = document.createElement("div");
-    twxCnfMobileTxt.id = "twx_cnf_mobile_txt";
-    twxCnfMobileTxt.innerText = twcCnfPossValues[twxCnfActive];
-    twxCnfContainer.appendChild(twxCnfMobileTxt);
-</script>
+<a id="ccipContainer"
+   class="ccip-container__customizable twx_cnf_container_customizable"
+   href="{{ .ConfidentialityDocLink }}"
+   target="_blank"
+>
+    <div id="ccipTrafficLight">
+        <div id="ccipLampInt" class="ccip-lamp" data-conf="{{ .Confidentiality }}"></div>
+        <div id="ccipLampRest" class="ccip-lamp" data-conf="{{ .Confidentiality }}"></div>
+        <div id="ccipLampConf" class="ccip-lamp" data-conf="{{ .Confidentiality }}"></div>
+    </div>
+    <div id="ccipTrafficLightMobile">
+        <div id="ccipLampMobile" class="ccip-lamp" data-conf="{{ .Confidentiality }}"></div>
+    </div>
+    <div id="ccipText">
+        <div id="ccipTextInt" class="ccip-text" data-conf="{{ .Confidentiality }}">
+            <p>Internal</p>
+        </div>
+        <div id="ccipTextRest" class="ccip-text" data-conf="{{ .Confidentiality }}">
+            <p>Restricted</p>
+        </div>
+        <div id="ccipTextConf" class="ccip-text" data-conf="{{ .Confidentiality }}">
+            <p>Confidential</p>
+        </div>
+    </div>
+    <div id="ccipMobileText">
+        {{ if eq .Confidentiality "int" }}
+        Internal
+        {{ else if eq .Confidentiality "rest" }}
+        Restricted
+        {{ else if eq .Confidentiality "conf" }}
+        Confidential
+        {{ end }}
+    </div>
+</a>

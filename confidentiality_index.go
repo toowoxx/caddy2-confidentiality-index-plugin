@@ -1,6 +1,8 @@
 package confindex
 
 import (
+	"html/template"
+	"log"
 	"net/http"
 	"strings"
 
@@ -15,19 +17,32 @@ import (
 	"github.com/toowoxx/caddy2-confidentiality-index-plugin/embedded"
 )
 
+var tpl *template.Template
+
+type TemplateOptions struct {
+	Confidentiality        string
+	ConfidentialityDocLink string
+}
+
 func init() {
 	caddy.RegisterModule(Middleware{})
 	httpcaddyfile.RegisterHandlerDirective("confidentiality", parseCaddyfile)
 	httpcaddyfile.RegisterGlobalOption("confidentiality_doc_link", unmarshalDocLink)
+
+	var err error
+	tpl, err = template.New("html").Parse(embedded.ConfidentialityIndexHtml)
+	if err != nil {
+		log.Fatal(errors.Wrap(err, "could not parse template"))
+	}
 }
 
 type Middleware struct {
 	ConfidentialityStr string `json:"confidentiality"`
-	Confidentiality Confidentiality
+	Confidentiality    Confidentiality
 
-	injectedWriter *injection.InjectedWriter
+	injectedWriter      *injection.InjectedWriter
 	injectionMiddleware *injection.Middleware
-	logger *zap.Logger
+	logger              *zap.Logger
 }
 
 var documentationLink string
@@ -48,9 +63,9 @@ func (m *Middleware) Provision(ctx caddy.Context) error {
 	m.injectionMiddleware = &injection.Middleware{
 		ContentType: "text/html",
 		// Not necessary as we will be using a custom LineHandler
-		Inject:      "",
-		Before:      "</body>",
-		Logger:      m.logger,
+		Inject: "",
+		Before: "</body>",
+		Logger: m.logger,
 	}
 	return m.injectionMiddleware.Provision(ctx)
 }
@@ -66,10 +81,17 @@ func (m *Middleware) Validate() error {
 
 func (m Middleware) HandleLine(line string) (string, error) {
 	if strings.Contains(line, m.injectedWriter.M.Before) {
-		textToInject := embedded.ConfidentialityIndexHtml
-		textToInject = strings.Replace(textToInject, "{{confidentiality}}", m.Confidentiality.ToScriptKey(), 1)
-		textToInject = strings.Replace(textToInject, "{{documentation_link}}", documentationLink, 1)
+		var strBuf strings.Builder
+		err := tpl.Execute(&strBuf, TemplateOptions{
+			Confidentiality:        m.Confidentiality.ToScriptKey(),
+			ConfidentialityDocLink: documentationLink,
+		})
+		if err != nil {
+			return "", errors.Wrap(err, "could not execute template")
+		}
+		textToInject := strBuf.String()
 		textToInject = m.injectedWriter.HandleCSPForText(textToInject)
+
 		return strings.Replace(line, m.injectedWriter.M.Before, textToInject+m.injectedWriter.M.Before, 1), nil
 	}
 	return line, nil
@@ -135,5 +157,5 @@ var (
 	_ caddy.Provisioner           = (*Middleware)(nil)
 	_ caddy.Validator             = (*Middleware)(nil)
 	_ caddyhttp.MiddlewareHandler = (*Middleware)(nil)
-	_ injection.LineHandler		  = (*Middleware)(nil)
+	_ injection.LineHandler       = (*Middleware)(nil)
 )
