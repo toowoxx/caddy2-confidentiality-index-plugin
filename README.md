@@ -27,8 +27,8 @@ http://localhost:2015 {
 **Supported classifications:**
 
 - internal
-- restricted
 - confidential
+- secret
 
 ## Testing
 

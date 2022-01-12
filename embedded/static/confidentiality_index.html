@@ -3,8 +3,8 @@
     :root {
         --ccipColorBackground: rgba(0, 0, 0, 0.75);
         --ccipColorInternal: #E55B5B;
-        --ccipColorRestricted: #E5BA79;
-        --ccipColorConfidential: #6FE56B;
+        --ccipColorConfidential: #E5BA79;
+        --ccipColorSecret: #6FE56B;
         --ccipColorTextBackgroundInactive: rgba(160, 160, 160, 0.85);
         --ccipColorTextActive: #FFFFFF;
         --ccipColorTextInactive: #484848;
@@ -52,20 +52,20 @@
         background-color: var(--ccipColorInternal);
     }
 
-    #ccipLampRest {
+    #ccipLampConfidential {
         top: 30px;
     }
 
-    #ccipLampRest[data-conf="rest"], #ccipLampMobile[data-conf="rest"] {
-        background-color: var(--ccipColorRestricted);
+    #ccipLampConfidential[data-conf="confidential"], #ccipLampMobile[data-conf="confidential"] {
+        background-color: var(--ccipColorConfidential);
     }
 
-    #ccipLampConf {
+    #ccipLampSecret {
         top: 55px;
     }
 
-    #ccipLampConf[data-conf="conf"], #ccipLampMobile[data-conf="conf"] {
-        background-color: var(--ccipColorConfidential);
+    #ccipLampSecret[data-conf="secret"], #ccipLampMobile[data-conf="secret"] {
+        background-color: var(--ccipColorSecret);
     }
 
     #ccipText {
@@ -116,21 +116,21 @@
         color: var(--ccipColorTextActive);
     }
 
-    #ccipTextRest {
+    #ccipTextConfidential {
         top: 30px;
     }
 
-    #ccipTextRest[data-conf="rest"] {
-        background-color: var(--ccipColorRestricted);
+    #ccipTextConfidential[data-conf="confidential"] {
+        background-color: var(--ccipColorConfidential);
         color: var(--ccipColorTextActive);
     }
 
-    #ccipTextConf {
+    #ccipTextSecret {
         top: 55px;
     }
 
-    #ccipTextConf[data-conf="conf"] {
-        background-color: var(--ccipColorConfidential);
+    #ccipTextSecret[data-conf="secret"] {
+        background-color: var(--ccipColorSecret);
         color: var(--ccipColorTextActive);
     }
 
@@ -199,8 +199,8 @@
 >
     <div id="ccipTrafficLight">
         <div id="ccipLampInt" class="ccip-lamp" data-conf="{{ .Confidentiality }}"></div>
-        <div id="ccipLampRest" class="ccip-lamp" data-conf="{{ .Confidentiality }}"></div>
-        <div id="ccipLampConf" class="ccip-lamp" data-conf="{{ .Confidentiality }}"></div>
+        <div id="ccipLampConfidential" class="ccip-lamp" data-conf="{{ .Confidentiality }}"></div>
+        <div id="ccipLampSecret" class="ccip-lamp" data-conf="{{ .Confidentiality }}"></div>
     </div>
     <div id="ccipTrafficLightMobile">
         <div id="ccipLampMobile" class="ccip-lamp" data-conf="{{ .Confidentiality }}"></div>
@@ -209,20 +209,20 @@
         <div id="ccipTextInt" class="ccip-text" data-conf="{{ .Confidentiality }}">
             <p>Internal</p>
         </div>
-        <div id="ccipTextRest" class="ccip-text" data-conf="{{ .Confidentiality }}">
-            <p>Restricted</p>
-        </div>
-        <div id="ccipTextConf" class="ccip-text" data-conf="{{ .Confidentiality }}">
+        <div id="ccipTextConfidential" class="ccip-text" data-conf="{{ .Confidentiality }}">
             <p>Confidential</p>
+        </div>
+        <div id="ccipTextSecret" class="ccip-text" data-conf="{{ .Confidentiality }}">
+            <p>Secret</p>
         </div>
     </div>
     <div id="ccipMobileText">
         {{ if eq .Confidentiality "int" }}
         Internal
-        {{ else if eq .Confidentiality "rest" }}
-        Restricted
-        {{ else if eq .Confidentiality "conf" }}
+        {{ else if eq .Confidentiality "confidential" }}
         Confidential
+        {{ else if eq .Confidentiality "secret" }}
+        Secret
         {{ end }}
     </div>
 </a>
