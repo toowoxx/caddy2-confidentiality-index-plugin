@@ -1,4 +1,5 @@
 arg CADDY_VERSION 2
+arg REPOSITORY_NAME
 from caddy:${CADDY_VERSION}-builder as builder
 
 add . /src/plugin
