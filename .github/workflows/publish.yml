@@ -44,6 +44,7 @@ jobs:
           push: true
           build-args: |
             CADDY_VERSION=${{ env.CADDY_VERSION }}
+            REPOSITORY_NAME=${{ github.repository }}
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.REF_VER }}-caddy${{ env.CADDY_VERSION }}
           labels: ${{ steps.meta.outputs.labels }}
