@@ -10,7 +10,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  CADDY_VERSION: 2.4.6
+  CADDY_VERSION: 2.7.5
 
 jobs:
   docker:
